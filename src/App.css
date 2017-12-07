@@ -1,28 +1,62 @@
-.App {
-  text-align: center;
+body, input {
+  font-family: 'Roboto', sans-serif;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.Todo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20vh;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
+.Todo-input {
+  display: flex;
+  width: 800px;
+  max-width: 90vw;
+  align-items: center;
+  justify-content: space-between;
+  border: 5px solid #ffeb3b;
   padding: 20px;
-  color: white;
+  font-size: 48px;
+}
+.Todo-input > input {
+  margin-left: 10px;
+  border: none;
+  outline: none;
+  font-size: 36px;
+}
+.Todo-input > #submit-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.Todo-input #submit-icon {
+  font-size: 56px;
 }
 
-.App-title {
-  font-size: 1.5em;
+.Todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  width: 600px;
+  max-width: 90vw;
+  border-bottom: 5px solid #ffc107;
 }
-
-.App-intro {
-  font-size: large;
+.Todo-item input {
+  border: none;
+  outline: none;
+  font-size: 32px;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.Todo-item > .Todo-item-check {
+  cursor: pointer;
+}
+.Todo-item .item-status {
+  font-size: 36px;
+}
+.Todo-item.done {
+  border-bottom: 5px solid #03A9F4;
+}
+.Todo-item.done input {
+  color: #7e7e7e;
+  text-decoration: line-through #7e7e7e; 
 }

@@ -8,9 +8,9 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="Todo">
         <TodoInput />
-        <TodoItemList todos={this.props.todos} />
+        <TodoItemList todos={this.props.todos.reverse()} />
       </div>
     );
   }
@@ -20,24 +20,31 @@ function TodoInput(props) {
   return (
     <div className="Todo-input">
       <input type="text" placeholder="What needs to be done?" />
-      <button>Submit</button>
+      <div id="submit-button"><i class="material-icons" id="submit-icon">arrow_forward</i></div>
     </div>
   );
 }
 
 function TodoItemList(props) {
   let list = props.todos.map((todo, index) => (
-    <TodoItem key={index} todo={todo} />))
+    <TodoItem key={index} todo={todo} index={index} />))
   return <div className="Todo-item-list">{list}</div>;
 }
 
 function TodoItem(props) {
-  const klass = props.todo.done ? "Todo-item Todo-done" : "Todo-item";
+  let klass = "";
+  let icon = "";
+  if (props.todo.done) {
+    klass = "Todo-item done";
+    icon = <i class="material-icons item-status">check</i>;
+  } else {
+    klass = "Todo-item";
+    icon = <i class="material-icons item-status">clear</i>;
+  }
   return (
     <div className={klass}>
-      {props.key}
       <input type="text" value={props.todo.text} />
-      <button>Check</button>
+      <div class="Todo-item-check">{icon}</div>
     </div>
 
   )
