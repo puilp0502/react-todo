@@ -1,23 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const STORAGE_KEY = 'react-todo.App.todos';
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { todos: props.todos };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
-
+    this.storage = props.storage;
+    this.state = { todos: this.getStoredTodos(this.storage) };
+  }
+  getStoredTodos(storage){
+    return JSON.parse(storage.getItem(STORAGE_KEY) || '[{"text": "Learn react", "done": true}]');
+  }
+  storeTodo(storage, todos) {
+    storage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }
   handleSubmit(text) {
-    this.setState((prevState, props) => (
-      { todos: prevState.todos.concat([{ text: text, done: false }]) }
-    ));
+    this.setState(function (prevState, props) {
+      let todos = prevState.todos;
+      todos.push({ text: text, done: false });
+      this.storeTodo(this.storage, todos);
+      return { todos: todos };
+    });
   }
   handleStatusChange(index, newTodo) {
     this.setState(function (prevState, props) {
       let todos = prevState.todos;
       todos[index] = newTodo;
+      this.storeTodo(this.storage, todos);
       return { todos: todos };
     });
   }
