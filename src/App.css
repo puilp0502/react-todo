@@ -48,6 +48,13 @@ body, input {
   font-size: 32px;
 }
 .Todo-item > .Todo-item-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #0000006b;
   cursor: pointer;
 }
 .Todo-item .item-status {
@@ -59,4 +66,9 @@ body, input {
 .Todo-item.done input {
   color: #7e7e7e;
   text-decoration: line-through #7e7e7e; 
+}
+.Todo-item.done > .Todo-item-check {
+  color: white;
+  border: 1px solid white;
+  background-color: #03A9F4;
 }

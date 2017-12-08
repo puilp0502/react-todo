@@ -105,13 +105,11 @@ class TodoItem extends Component {
     this.props.handleStatusChange(this.props.index, newTodo);
   }
   render() {
-    let klass = "", icon = "";
+    let klass = "";
     if (this.props.todo.done) {
       klass = "Todo-item done";
-      icon = <i className="material-icons item-status">check</i>;
     } else {
       klass = "Todo-item";
-      icon = <i className="material-icons item-status">clear</i>;
     }
     return (
       <div className={klass}>
@@ -122,7 +120,7 @@ class TodoItem extends Component {
         <div
           className="Todo-item-check"
           onClick={this.handleClick}>
-          {icon}
+          <i className="material-icons item-status">check</i>
         </div>
       </div>
 
