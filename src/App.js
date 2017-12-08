@@ -8,13 +8,15 @@ class App extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.storage = props.storage;
     this.state = { todos: this.getStoredTodos(this.storage) };
   }
-  getStoredTodos(storage){
+  getStoredTodos(storage) {
     return JSON.parse(storage.getItem(STORAGE_KEY) || '[{"text": "Learn react", "done": true}]');
   }
   storeTodo(storage, todos) {
+    todos = todos.filter((value) => (value !== null)) // Filter removed item so that it won't be stored
     storage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }
   handleSubmit(text) {
@@ -33,12 +35,21 @@ class App extends Component {
       return { todos: todos };
     });
   }
+  handleDelete(index) {
+    this.setState(function (prevState, props) {
+      let todos = prevState.todos;
+      todos[index] = null;
+      this.storeTodo(this.storage, todos);
+      return { todos: todos };
+    });
+  }
   render() {
     return (
       <div className="Todo">
         <TodoInput handleSubmit={this.handleSubmit} />
         <TodoItemList
           handleStatusChange={this.handleStatusChange}
+          handleDelete={this.handleDelete}
           todos={this.state.todos} />
       </div>
     );
@@ -85,7 +96,8 @@ function TodoItemList(props) {
       key={index}
       index={index}
       todo={todo}
-      handleStatusChange={props.handleStatusChange} />)).reverse()
+      handleStatusChange={props.handleStatusChange}
+      handleDelete={props.handleDelete} />)).reverse()
   return <div className="Todo-item-list">{list}</div>;
 }
 
@@ -94,6 +106,7 @@ class TodoItem extends Component {
     super(props);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClear = this.handleClear.bind(this);
   }
   handleTextChange(event) {
     const newTodo = { "text": event.target.value, "done": this.props.todo.done };
@@ -104,10 +117,23 @@ class TodoItem extends Component {
     const newTodo = { "text": todo.text, "done": !todo.done };
     this.props.handleStatusChange(this.props.index, newTodo);
   }
+  handleClear(event) {
+    this.props.handleDelete(this.props.index);
+  }
   render() {
-    let klass = "";
+    if (this.props.todo === null)
+      return null;
+
+    let klass = "", clear = "";
     if (this.props.todo.done) {
       klass = "Todo-item done";
+      clear = (
+        <div
+          className="Todo-item-clear"
+          onClick={this.handleClear}>
+          <i className="material-icons item-clear">clear</i>
+        </div>
+      );
     } else {
       klass = "Todo-item";
     }
@@ -117,10 +143,13 @@ class TodoItem extends Component {
           type="text"
           defaultValue={this.props.todo.text}
           onBlur={this.handleTextChange} />
-        <div
-          className="Todo-item-check"
-          onClick={this.handleClick}>
-          <i className="material-icons item-status">check</i>
+        <div className="Todo-item-control">
+          {clear}
+          <div
+            className="Todo-item-check"
+            onClick={this.handleClick}>
+            <i className="material-icons item-status">check</i>
+          </div>
         </div>
       </div>
 

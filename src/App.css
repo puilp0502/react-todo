@@ -33,6 +33,9 @@ body, input {
   font-size: 56px;
 }
 
+.Todo-item-list {
+  margin-bottom: 15px;
+}
 .Todo-item {
   display: flex;
   align-items: center;
@@ -47,18 +50,31 @@ body, input {
   outline: none;
   font-size: 32px;
 }
-.Todo-item > .Todo-item-check {
+.Todo-item-control {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+.Todo-item .Todo-item-check, .Todo-item .Todo-item-clear {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+.Todo-item .Todo-item-check {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   border: 1px solid #0000006b;
-  cursor: pointer;
+}
+.Todo-item .Todo-item-clear {
+  margin-right: 20px;
 }
 .Todo-item .item-status {
   font-size: 36px;
+}
+.Todo-item .item-clear {
+  font-size: 24px;
 }
 .Todo-item.done {
   border-bottom: 5px solid #03A9F4;
@@ -67,7 +83,7 @@ body, input {
   color: #7e7e7e;
   text-decoration: line-through #7e7e7e; 
 }
-.Todo-item.done > .Todo-item-check {
+.Todo-item.done .Todo-item-check {
   color: white;
   border: 1px solid white;
   background-color: #03A9F4;
